@@ -87,5 +87,9 @@ void				ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list				*ft_lstnew(void const *content, size_t content_size);
+char			    *ft_itoa_base(int n, int base);
+char			    *ft_itoa_base_long(long long int n, int base);
+char			    *ft_itoa_base_ulong(unsigned long long int n, int base);
+char			    *ft_strsub_mod(char const *s, unsigned int start, size_t len, char mod);
 
 #endif
