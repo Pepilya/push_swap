@@ -72,7 +72,7 @@ void cmd_ra(t_lst *list)
 	t_stack *tmp;
 
 	a = list->a;
-	if ( a != NULL && a->next != NULL)
+	if (a != NULL && a->next != NULL)
 	{
 		first = a->num;
 		while (a->next != NULL)
@@ -119,7 +119,7 @@ void cmd_pa(t_lst *list)
 	{
 		val = list->a->num;
 		remove_start(list, 1);
-		add_lstnum(list->b, val); ///// должно быть сверху (top) исправить
+		add_start(list->b, val);
 	}
 }
 
@@ -131,49 +131,57 @@ void cmd_pb(t_lst *list)
 	{
 		val = list->b->num;
 		remove_start(list, 2);
-		add_lstnum(list->a, val);
+		add_start(list->a, val);
 	}
 }
 
-
-void cmd_rra(t_lt *lstnum)
+void cmd_rra(t_lst *list)
 {
 	int last;
-	t_lt *tmp;
+	t_stack *tmp;
+	t_stack *a;
 
-	if (lstnum != NULL && lstnum->next != NULL)
+	a = list->a;
+	while (a->next != NULL)
+		a = a->next;
+	if (a->prev != NULL)
 	{
-
-		while (lstnum->next != NULL)
-			lstnum = lstnum->next;
-		last = lstnum->num[0];
-		while (lstnum->prev != NULL)
+		last = a->num;
+		while (a->prev != NULL)
 		{
-			tmp = lstnum->prev;
-			lstnum->num[0] = tmp->num[0];
-			lstnum = lstnum->prev;
+			tmp = a->prev;
+			a->num = tmp->num;
+			a = a->prev;
 		}
-		lstnum->num[0] = last;
+		a->num = last;
 	}
 }
 
-void cmd_rrb(t_lst *lstnum)
+void cmd_rrb(t_lst *list)
 {
 	int last;
-	t_lt *tmp;
+	t_stack *tmp;
+	t_stack *b;
 
-	if (lstnum != NULL && lstnum->next != NULL)
+	b = list->b;
+	while (b->next != NULL)
+		b = b->next;
+	if (b->prev != NULL)
 	{
-
-		while (lstnum->next != NULL)
-			lstnum = lstnum->next;
-		last = lstnum->num[1];
-		while (lstnum->prev != NULL)
+		last = b->num;
+		while (b->prev != NULL)
 		{
-			tmp = lstnum->prev;
-			lstnum->num[1] = tmp->num[1];
-			lstnum = lstnum->prev;
+			tmp = b->prev;
+			b->num = tmp->num;
+			b = b->prev;
 		}
-		lstnum->num[1] = last;
+		b->num = last;
 	}
 }
+
+void cmd_rrr(t_lst *list)
+{
+	cmd_rra(list);
+	cmd_rrb(list);
+}
+

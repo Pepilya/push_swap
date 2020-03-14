@@ -9,19 +9,17 @@
 #include "libft/libft.h"
 #include "libft/get_next_line.h"
 
-
 void add_lstcmd(t_cmd *list, char *argument) {
 	t_cmd *tmp;
 
-	if (list == NULL) {
-		list = (t_cmd *)malloc(sizeof(t_list));
-		list->next = NULL;
-		list->prev = NULL;
+	if (list->count == 0)
+	{
+		list->cmd = argument;
 		return ;
 	}
 	while (list->next != NULL)
 		list = list->next;
-	list->next = (t_cmd *) malloc(sizeof(t_list));
+	list->next = (t_cmd *)malloc(sizeof(t_cmd));
 	tmp = list;
 	list = list->next;
 	list->cmd = argument;
@@ -39,7 +37,7 @@ int is_cmd(char *argument) {
 		return 0;
 }
 
-void add_lstnum(t_stack *list, int argument)
+void add_start(t_stack *list, int argument)
 {
 	t_stack *tmp;
 
@@ -49,6 +47,24 @@ void add_lstnum(t_stack *list, int argument)
 		list->num = argument;
 		list->next = NULL;
 		list->prev = NULL;
+		return ;
+	}
+	list->next = (t_stack*)malloc(sizeof(t_stack));
+	tmp = list;
+	list = list->next;
+	list->num = tmp->num;
+	tmp->num = argument;
+	list->prev = tmp;
+	list->next = NULL;
+}
+
+void add_end(t_stack *list, int argument)
+{
+	t_stack *tmp;
+
+	if (list->num == 0)
+	{
+		list->num = argument;
 		return ;
 	}
 	while (list->next != NULL)
@@ -74,13 +90,6 @@ int is_num(char *av) {
 	return 1;
 }
 
-t_lst *init_lst()
-{
-	t_lst *list;
-
-	list = (t_lst*)malloc(sizeof(t_lst));
-	return list;
-}
 
 int validate_input(int ac, char **av, t_lst *list) {
 	int i;
@@ -89,7 +98,7 @@ int validate_input(int ac, char **av, t_lst *list) {
 	while (i < ac) {
 		if (is_num(av[i]))
 		{
-			add_lstnum(list->a, ft_atoi(av[i]));
+			add_end(list->a, ft_atoi(av[i]));
 			list->a_len++;
 		}
 		else
@@ -99,7 +108,7 @@ int validate_input(int ac, char **av, t_lst *list) {
 	return 1;
 }
 
-int validate_cmd(int fd, t_cmd *lstcmd) {
+int validate_cmd(int fd, t_lst *list) {
 /*	int count;
 	char **buf = NULL;
 
@@ -118,17 +127,15 @@ int validate_cmd(int fd, t_cmd *lstcmd) {
 	                  {'s', 's', '\n', 0}};
 	int i = 0;
 	while (i < 3) {
-		if (is_cmd(cmd[i]) != 1)
+		if (is_cmd(cmd[i]) == 1)
 		{
-			add_lstcmd(lstcmd, cmd[i]);
+			add_lstcmd(list->cmd, cmd[i]);
 			return 0;
 		}
-
 		i++;
 	}
 	return 1;
 }
-
 
 int main() {
 	t_lst *list;
@@ -139,18 +146,17 @@ int main() {
 	av[0] = (char*)malloc(sizeof(char) * 2);
 	av[1] = (char*)malloc(sizeof(char) * 2);
 	av[2] = (char*)malloc(sizeof(char) * 2);
-	av[0][0] = '1';
+	av[0][0] = '2';
 	av[0][1] = 0;
-	av[1][0] = '2';
+	av[1][0] = '1';
 	av[1][1] = 0;
 	av[2][0] = '3';
 	av[2][1] = 0;
 
 	list = init_lst();
-	lstcmd = NULL;
 	check = validate_input(3, av, list);
 	//fd = open ("comands.txt", O_RDONLY);
-	validate_cmd(fd, lstcmd);
+	check = validate_cmd(fd, list);
 	//close(fd);
 	//printf("12312313");
 	return 0;

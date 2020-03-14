@@ -27,21 +27,38 @@ typedef struct          s_stack{
 	struct s_stack      *prev;
 }                       t_stack;
 
-typedef struct          s_lst{
-	t_stack             *a;
-	t_stack             *b;
-	char                type;
-	int                 a_len;
-	int                 b_len;
-
-}                       t_lst;
-
 typedef struct          s_cmd{
+	int count;
 	char *cmd;
 	struct s_cmd *next;
 	struct s_mod *prev;
 }                       t_cmd;
 
-void add_lstnum(t_stack *list, int argument);
+typedef struct          s_lst{
+	t_stack             *a;
+	t_stack             *b;
+	t_cmd               *cmd;
+	char                type;
+	int                 a_len;
+	int                 b_len;
+}                       t_lst;
+
+
+t_lst *init_lst();
+t_cmd *init_cmd();
+void remove_start(t_lst *list, int type);
+void add_start(t_stack *list, int argument);
+void cmd_sa(t_lst *list);
+void cmd_sb(t_lst *list);
+void cmd_ss(t_lst *list);
+void cmd_ra(t_lst *list);
+void cmd_rb(t_lst *list);
+void cmd_rr(t_lst *list);
+void cmd_pa(t_lst *list);
+void cmd_pb(t_lst *list);
+void cmd_rra(t_lst *list);
+void cmd_rrb(t_lst *list);
+void cmd_rrr(t_lst *list);
+
 
 #endif
