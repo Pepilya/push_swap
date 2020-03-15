@@ -14,7 +14,8 @@ void add_lstcmd(t_cmd *list, char *argument) {
 
 	if (list->count == 0)
 	{
-		list->cmd = argument;
+		list->cmd = ft_strdup(argument);
+		list->count++;
 		return ;
 	}
 	while (list->next != NULL)
@@ -22,9 +23,10 @@ void add_lstcmd(t_cmd *list, char *argument) {
 	list->next = (t_cmd *)malloc(sizeof(t_cmd));
 	tmp = list;
 	list = list->next;
-	list->cmd = argument;
-	list->next = NULL;
+	list->cmd = ft_strdup(argument);
 	list->prev = tmp;
+	list->next = NULL;
+	list->count = tmp->count + 1;
 }
 
 int is_cmd(char *argument) {
@@ -124,14 +126,13 @@ int validate_cmd(int fd, t_lst *list) {
 	return 1;*/
 	char cmd[3][4] = {{'s', 'a', '\n', 0},
 	                  {'s', 'b', '\n', 0},
-	                  {'s', 's', '\n', 0}};
+	                  {'p', 'b', '\n', 0}};
 	int i = 0;
 	while (i < 3) {
 		if (is_cmd(cmd[i]) == 1)
-		{
 			add_lstcmd(list->cmd, cmd[i]);
+		else
 			return 0;
-		}
 		i++;
 	}
 	return 1;
@@ -157,6 +158,9 @@ int main() {
 	check = validate_input(3, av, list);
 	//fd = open ("comands.txt", O_RDONLY);
 	check = validate_cmd(fd, list);
+	parser_comand(list);
+	checker(list);
+
 	//close(fd);
 	//printf("12312313");
 	return 0;

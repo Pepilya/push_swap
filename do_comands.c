@@ -48,7 +48,7 @@ void cmd_sb(t_lst *list)
 	t_stack *tmp;
 	int temp;
 
-	b = list->a;
+	b = list->b;
 	if (b != NULL && b->next != NULL)
 	{
 		tmp = b->next;
@@ -115,11 +115,11 @@ void cmd_pa(t_lst *list)
 {
 	int val;
 
-	if (list->a != NULL)
+	if (list->b != NULL)
 	{
-		val = list->a->num;
-		remove_start(list, 1);
-		add_start(list->b, val);
+		val = list->b->num;
+		remove_start(list, 2);
+		add_start(list->a, val);
 	}
 }
 
@@ -127,11 +127,11 @@ void cmd_pb(t_lst *list)
 {
 	int val;
 
-	if (list->b != NULL)
+	if (list->a != NULL)
 	{
-		val = list->b->num;
-		remove_start(list, 2);
-		add_start(list->a, val);
+		val = list->a->num;
+		remove_start(list, 1);
+		add_start(list->b, val);
 	}
 }
 

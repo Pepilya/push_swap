@@ -31,7 +31,7 @@ typedef struct          s_cmd{
 	int count;
 	char *cmd;
 	struct s_cmd *next;
-	struct s_mod *prev;
+	struct s_cmd *prev;
 }                       t_cmd;
 
 typedef struct          s_lst{
@@ -48,6 +48,7 @@ t_lst *init_lst();
 t_cmd *init_cmd();
 void remove_start(t_lst *list, int type);
 void add_start(t_stack *list, int argument);
+void parser_comand(t_lst *list);
 void cmd_sa(t_lst *list);
 void cmd_sb(t_lst *list);
 void cmd_ss(t_lst *list);
@@ -59,6 +60,7 @@ void cmd_pb(t_lst *list);
 void cmd_rra(t_lst *list);
 void cmd_rrb(t_lst *list);
 void cmd_rrr(t_lst *list);
-
+int checker(t_lst *list);
+int check_sort_stack(t_stack *stack);
 
 #endif
